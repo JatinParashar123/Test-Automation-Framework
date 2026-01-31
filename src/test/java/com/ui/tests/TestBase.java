@@ -24,8 +24,8 @@ public class TestBase {
 	
 	@Parameters({"browser", "isLambdaTest", "isHeadless"})
 	@BeforeMethod(description="Loads the Home page of the application")
-//	public void setUp(@Optional("chrome") String browser, ITestResult result, @Optional("false") boolean isLambdaTest, @Optional("false") boolean isHeadless) {
-	public void setUp(String browser, ITestResult result,  boolean isLambdaTest, boolean isHeadless) {
+	public void setUp(@Optional("chrome") String browser, ITestResult result, @Optional("false") boolean isLambdaTest, @Optional("false") boolean isHeadless) {
+
 		WebDriver lambdaDriver;
 		
 		this.isLambdaTest=isLambdaTest; // as islambdaTest instance variable is also present in the teardown method also
