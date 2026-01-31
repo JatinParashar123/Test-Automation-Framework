@@ -16,7 +16,7 @@
           </suiteXmlFiles>
           <systemPropertyVariables>
             <browser>${browser}</browser>
-             <isHeadless>${isHeadles}</isHeadless>
+             <isHeadless>${isHeadless}</isHeadless>
               <isLambdaTest>${isLambdaTest}</isLambdaTest>
           </systemPropertyVariables>
         </configuration>
