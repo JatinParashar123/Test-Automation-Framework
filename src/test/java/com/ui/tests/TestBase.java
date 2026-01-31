@@ -17,37 +17,61 @@ import com.utility.LambdaTestUtility;
 import com.utility.LoggerUtility;
 
 public class TestBase {
-	protected HomePage homePage;
-	private boolean isLambdaTest;
-	
-	Logger logger=LoggerUtility.getLogger(this.getClass());
-	
-	@Parameters({"browser", "isLambdaTest", "isHeadless"})
-	@BeforeMethod(description="Loads the Home page of the application")
-	public void setUp(@Optional("chrome") String browser, ITestResult result, @Optional("false") boolean isLambdaTest, @Optional("false") boolean isHeadless) {
 
-		WebDriver lambdaDriver;
-		
-		this.isLambdaTest=isLambdaTest; // as islambdaTest instance variable is also present in the teardown method also
-		if(isLambdaTest) {
-			lambdaDriver=LambdaTestUtility.initializeLambdaTestSession(browser,result.getMethod().getMethodName());
-			homePage=new HomePage(lambdaDriver);
-		}
-		else {
-			//Running test in local machine
-			logger.info("Loads the home page of the application");
-			homePage=new HomePage(Browser.valueOf(browser.toUpperCase()),isHeadless);
-		}
-	}
-	
-	public BrowserUtility getInstance() {
-		return homePage;
-	}
-	
-	@AfterMethod(description="Tear down the browser")
-	public void tearDown() {
-		if(isLambdaTest) {
-			LambdaTestUtility.quitSession();
-		}
-	}
+    protected HomePage homePage;
+    private boolean isLambdaTest;
+
+    Logger logger = LoggerUtility.getLogger(this.getClass());
+
+    @Parameters({"browser", "isLambdaTest", "isHeadless"})
+    @BeforeMethod(description = "Loads the Home page of the application")
+    public void setUp(
+            @Optional("chrome") String browser,
+            ITestResult result,
+            @Optional("false") String isLambdaTest,
+            @Optional("false") String isHeadless) {
+
+        // ✅ System property override (CI-friendly)
+        String finalBrowser = System.getProperty("browser", browser);
+        boolean finalIsLambdaTest = Boolean.parseBoolean(
+                System.getProperty("isLambdaTest", isLambdaTest)
+        );
+        boolean finalIsHeadless = Boolean.parseBoolean(
+                System.getProperty("isHeadless", isHeadless)
+        );
+
+        this.isLambdaTest = finalIsLambdaTest;
+
+        WebDriver driver;
+
+        if (finalIsLambdaTest) {
+            driver = LambdaTestUtility.initializeLambdaTestSession(
+                    finalBrowser,
+                    result.getMethod().getMethodName()
+            );
+            homePage = new HomePage(driver);
+        } else {
+            logger.info("Loads the home page of the application");
+
+            Browser browserType;
+            try {
+                browserType = Browser.valueOf(finalBrowser.trim().toUpperCase());
+            } catch (Exception e) {
+                browserType = CHROME; // safe fallback
+            }
+
+            homePage = new HomePage(browserType, finalIsHeadless);
+        }
+    }
+
+    public BrowserUtility getInstance() {
+        return homePage;
+    }
+
+    @AfterMethod(description = "Tear down the browser")
+    public void tearDown() {
+        if (isLambdaTest) {
+            LambdaTestUtility.quitSession();
+        }
+    }
 }
