@@ -21,7 +21,8 @@ public class TestBase {
     protected HomePage homePage;
     private boolean isLambdaTest;
 
-    Logger logger = LoggerUtility.getLogger(this.getClass());
+    //	Logger logger=LoggerUtility.getLogger(this.getClass());   //this does not work for static class so we added stackwalker class so it will work with static classes as well
+	private static final Logger logger = LoggerUtility.getLogger();
 
     @Parameters({"browser", "isLambdaTest", "isHeadless"})
     @BeforeMethod(description = "Loads the Home page of the application")

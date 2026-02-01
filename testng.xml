@@ -6,6 +6,11 @@
        thread-count="2"
        verbose="1">
 
+    <!-- ✅ Global TestNG Listener -->
+    <listeners>
+        <listener class-name="com.ui.listener.TestListener"/>
+    </listeners>
+
     <test name="UI Automation Test">
         <parameter name="browser" value="${browser:chrome}" />
         <parameter name="isLambdaTest" value="${isLambdaTest:false}" />
