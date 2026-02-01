@@ -40,7 +40,7 @@ public class AddressPage extends BrowserUtility {
 		clearText(ADDRESS_TITLE_TEXTBOX_LOCATOR);
 		enterText(ADDRESS_TITLE_TEXTBOX_LOCATOR,addressPOJO.getAddresTitle());
 		enterText(VAT_NUMBER_TEXTBOX_LOCATOR,addressPOJO.getVatNumber());
-		selectFromDropdown(STATE_DROPDOWN_LOCATOR,addressPOJO.getState());
+//		selectFromDropdown(STATE_DROPDOWN_LOCATOR,addressPOJO.getState());
 		
 		
 		
