@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.DataProvider;
 
@@ -42,9 +43,34 @@ public class LoginDataProvider {
 		return CSVReaderUtility.readCSVFile("logindata.csv");
 	}
 	
-	@DataProvider(name="LoginTestExcelDataProvider")
-	public Iterator<User> loginExcelDataProvider() {
-		return ExcelReaderUtility.readExcelFile("LoginData.xlsx");
+//	@DataProvider(name="LoginTestExcelDataProvider")
+//	public Iterator<User> loginExcelDataProvider() {
+//		return ExcelReaderUtility.readExcelFile("LoginData.xlsx");
+//	}
+	@DataProvider(name = "LoginTestExcelDataProvider")
+	public Iterator<Object[]> loginExcelDataProvider() {
+
+	    List<Map<String, String>> data =
+	            ExcelReaderUtility.readSheetData(
+	                    "LoginData.xlsx",
+	                    "LoginTestData"
+	            );
+
+	    List<Object[]> testData = new ArrayList<>();
+
+	    for (Map<String, String> row : data) {
+
+	        User user = new User(
+	                row.get("emailAddress"),
+	                row.get("password") // ⚠️ header must be lowercase "password"
+	        );
+
+	        testData.add(new Object[]{user});
+	    }
+
+	    return testData.iterator();
 	}
+
+
 	
 }
