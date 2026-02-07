@@ -19,8 +19,10 @@ public class FakeAddressUtility {
 				"test",
 				"Office", 
 				faker.number().digit(),
-				faker.address().state()
-				);
+				String.valueOf(
+				        faker.number().numberBetween(0, 36)
+				)
+		);
 		return addressPOJO;
 	}
 }

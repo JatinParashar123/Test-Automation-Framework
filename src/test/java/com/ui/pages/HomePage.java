@@ -13,14 +13,16 @@ public final  class HomePage extends BrowserUtility{ //to use the browser utilit
 	
 	public HomePage(Browser browser,boolean isHeadless) {
 		super(browser,isHeadless);//call the parent constructor
-		goToWebsite(JSONUtility.readJson(QA).getUrl());	
+		goToWebsite(JSONUtility.readJson(QA).getUrl());		
+		maximiseWindow();
 	}
 	
 	
 	
 	public HomePage(WebDriver driver) {
 		super(driver);//call the parent constructor
-		goToWebsite(JSONUtility.readJson(QA).getUrl());	
+		goToWebsite(JSONUtility.readJson(QA).getUrl());		
+		maximiseWindow();
 	}
 	 
 	
